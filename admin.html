@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Rins Frozen Food</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="shortcut icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --orange:#EE6708; --orange-dark:#C9550A; --orange-light:#FFF3EA;
+  --ink:#15151A; --panel:#1D1D24; --panel2:#23232C; --line:#2D2D38;
+  --text:#E9E9F0; --muted:#8C8CA0; --green:#3DD68C; --red:#F2545B; --amber:#F2B33D;
+  --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--ink);color:var(--text);line-height:1.5;min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:4px;}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;}
+.tb-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand img{height:32px;border-radius:6px;}
+.brand-name{font-weight:800;font-size:0.95rem;}
+.brand-tag{font-size:0.68rem;color:var(--muted);font-family:var(--mono);letter-spacing:0.5px;}
+.status-pill{display:flex;align-items:center;gap:7px;font-size:0.78rem;font-weight:600;padding:6px 13px;border-radius:50px;background:var(--panel2);border:1px solid var(--line);}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);}
+.status-pill.live .status-dot{background:var(--green);box-shadow:0 0 8px var(--green);}
+.status-pill.off .status-dot{background:var(--red);}
+
+/* ── LAYOUT ── */
+.wrap{max-width:1280px;margin:0 auto;padding:28px 24px 80px;}
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:24px;}
+.h-title{font-size:1.5rem;font-weight:800;}
+.h-sub{color:var(--muted);font-size:0.85rem;margin-top:3px;}
+
+/* ── SETUP NOTICE ── */
+.setup-notice{background:linear-gradient(135deg,#2a1f10,#1D1D24);border:1px solid #4a3318;border-radius:14px;padding:18px 20px;margin-bottom:24px;display:none;}
+.setup-notice.show{display:block;}
+.setup-notice h4{color:var(--amber);font-size:0.9rem;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.setup-notice p{color:var(--muted);font-size:0.82rem;line-height:1.6;}
+.setup-notice code{background:#000;padding:2px 7px;border-radius:5px;font-family:var(--mono);font-size:0.78rem;color:var(--amber);}
+
+/* ── STAT CARDS ── */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px;}
+.stat-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;}
+.stat-num{font-size:1.8rem;font-weight:800;font-family:var(--mono);}
+.stat-num.warn{color:var(--red);}
+.stat-lbl{color:var(--muted);font-size:0.78rem;margin-top:2px;}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px;}
+.tb-search{position:relative;flex:1;min-width:220px;max-width:380px;}
+.tb-search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px 10px 38px;color:var(--text);font-size:0.85rem;outline:none;transition:0.2s;}
+.tb-search input:focus{border-color:var(--orange);}
+.tb-search span{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;}
+.tb-select{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--text);font-size:0.85rem;cursor:pointer;outline:none;}
+.tb-select:focus{border-color:var(--orange);}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:10px;font-size:0.85rem;font-weight:700;cursor:pointer;border:none;transition:0.2s;white-space:nowrap;}
+.btn-primary{background:var(--orange);color:white;}
+.btn-primary:hover{background:var(--orange-dark);}
+.btn-ghost{background:var(--panel);color:var(--text);border:1px solid var(--line);}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange);}
+.btn:disabled{opacity:0.5;cursor:not-allowed;}
+.spacer{flex:1;}
+
+/* ── TABLE ── */
+.table-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+table{width:100%;border-collapse:collapse;}
+thead th{text-align:left;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);padding:13px 16px;border-bottom:1px solid var(--line);background:var(--panel2);white-space:nowrap;}
+tbody td{padding:11px 16px;border-bottom:1px solid var(--line);font-size:0.85rem;vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:rgba(255,255,255,0.02);}
+.cell-id{font-family:var(--mono);color:var(--muted);font-size:0.78rem;}
+.cell-emoji{font-size:1.3rem;}
+.editable{background:transparent;border:1px solid transparent;border-radius:7px;padding:6px 9px;color:var(--text);font-size:0.85rem;font-family:inherit;width:100%;min-width:90px;transition:0.15s;outline:none;}
+.editable:hover{border-color:var(--line);}
+.editable:focus{border-color:var(--orange);background:var(--panel2);}
+.editable.nama{min-width:160px;font-weight:600;}
+.editable.harga{font-family:var(--mono);max-width:110px;}
+select.editable{cursor:pointer;}
+.stok-input{width:64px;text-align:center;font-family:var(--mono);font-weight:700;}
+.stok-input.zero{color:var(--red);}
+.qtoggle{display:inline-flex;border-radius:8px;overflow:hidden;border:1px solid var(--line);}
+.qtoggle button{background:var(--panel2);color:var(--muted);border:none;width:30px;height:30px;font-size:15px;cursor:pointer;transition:0.15s;}
+.qtoggle button:hover{background:var(--orange);color:white;}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:50px;font-size:0.72rem;font-weight:700;}
+.pill.ready{background:rgba(61,214,140,0.12);color:var(--green);}
+.pill.empty{background:rgba(242,84,91,0.12);color:var(--red);}
+.toggle-aktif{position:relative;width:38px;height:22px;border-radius:11px;background:var(--line);cursor:pointer;border:none;transition:0.2s;flex-shrink:0;}
+.toggle-aktif::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--muted);transition:0.2s;}
+.toggle-aktif.on{background:rgba(61,214,140,0.25);}
+.toggle-aktif.on::after{transform:translateX(16px);background:var(--green);}
+.btn-icon{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:6px;border-radius:7px;transition:0.15s;}
+.btn-icon:hover{background:rgba(242,84,91,0.12);color:var(--red);}
+.row-saved{animation:flashSave 0.6s ease;}
+@keyframes flashSave{0%{background:rgba(61,214,140,0.18);}100%{background:transparent;}}
+
+/* ── PAGINATION ── */
+.pager{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-top:1px solid var(--line);background:var(--panel2);flex-wrap:wrap;gap:10px;}
+.pager-info{font-size:0.78rem;color:var(--muted);}
+.pager-btns{display:flex;gap:6px;}
+.pg-btn{background:var(--panel);border:1px solid var(--line);color:var(--text);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;transition:0.15s;}
+.pg-btn:hover:not(:disabled){border-color:var(--orange);color:var(--orange);}
+.pg-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.pg-btn.cur{background:var(--orange);border-color:var(--orange);color:white;}
+
+/* ── EMPTY / LOADING ── */
+.empty-row td{text-align:center;padding:48px 0;color:var(--muted);}
+.spin{display:inline-block;width:22px;height:22px;border:3px solid var(--line);border-top-color:var(--orange);border-radius:50%;animation:sp 0.8s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
+
+/* ── TOAST ── */
+.tcon{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:8px;}
+.toast{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:10px;padding:11px 16px;font-size:0.82rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,0.4);animation:tin 0.25s ease;min-width:220px;}
+.toast.err{border-left-color:var(--red);}
+@keyframes tin{from{transform:translateY(10px);opacity:0;}to{transform:none;opacity:1;}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  .table-wrap{overflow-x:auto;}
+  table{min-width:760px;}
+}
+@media(max-width:560px){
+  .tb-inner{padding:0 16px;}
+  .wrap{padding:20px 16px 60px;}
+  .brand-tag{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-inner">
+    <div class="brand">
+      <img src="logo.png" alt="" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-name">Rins Frozen Food</div>
+        <div class="brand-tag">ADMIN · STOK &amp; PRODUK</div>
+      </div>
+    </div>
+    <div class="status-pill off" id="status-pill">
+      <span class="status-dot"></span>
+      <span id="status-text">Memeriksa koneksi...</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="setup-notice" id="setup-notice">
+    <h4>⚠️ Database belum terhubung</h4>
+    <p>
+      Buka file ini, cari baris <code>const SUPABASE_URL</code> dan <code>const SUPABASE_KEY</code> di bagian bawah kode,
+      lalu isi dengan URL dan Anon Key dari project Supabase Anda (Project Settings → API).
+      Jalankan juga file <code>setup_database.sql</code> sekali di Supabase SQL Editor untuk membuat tabel produk.
+      Selama belum diisi, panel ini hanya menampilkan tampilan contoh dan perubahan tidak akan tersimpan.
+    </p>
+  </div>
+
+  <div class="head-row">
+    <div>
+      <div class="h-title">Manajemen Stok &amp; Produk</div>
+      <div class="h-sub">Perubahan di sini langsung tersinkron ke website utama secara real-time.</div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num" id="st-total">–</div><div class="stat-lbl">Total Produk</div></div>
+    <div class="stat-card"><div class="stat-num" id="st-aktif">–</div><div class="stat-lbl">Produk Aktif</div></div>
+    <div class="stat-card"><div class="stat-num warn" id="st-habis">–</div><div class="stat-lbl">Stok Habis</div></div>
+    <div class="stat-card"><div class="stat-num" id="st-kategori">–</div><div class="stat-lbl">Kategori</div></div>
+  </div>
+
+  <div class="toolbar">
+    <div class="tb-search">
+      <span>🔍</span>
+      <input type="text" id="search" placeholder="Cari nama produk...">
+    </div>
+    <select class="tb-select" id="filter-kat">
+      <option value="">Semua Kategori</option>
+      <option value="nuget">Nuget</option>
+      <option value="sosis">Sosis</option>
+      <option value="ikan">Olahan Ikan</option>
+      <option value="kulit">Kulit Lumpia/Kebab</option>
+      <option value="lainnya">Lainnya</option>
+    </select>
+    <select class="tb-select" id="filter-stok">
+      <option value="">Semua Stok</option>
+      <option value="habis">Stok Habis</option>
+      <option value="ada">Stok Tersedia</option>
+    </select>
+    <div class="spacer"></div>
+    <button class="btn btn-ghost" id="btn-refresh">↻ Muat Ulang</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th></th>
+          <th>Nama Produk</th>
+          <th>Kategori</th>
+          <th>Harga (Rp)</th>
+          <th>Stok</th>
+          <th>Status Stok</th>
+          <th>Unggulan</th>
+          <th>Aktif</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr class="empty-row"><td colspan="9"><div class="spin"></div><br><br>Memuat data produk...</td></tr>
+      </tbody>
+    </table>
+    <div class="pager" id="pager" style="display:none">
+      <div class="pager-info" id="pager-info"></div>
+      <div class="pager-btns" id="pager-btns"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="tcon" id="tcon"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   KONEKSI SUPABASE — ISI DENGAN MILIK ANDA SENDIRI
+   Harus SAMA dengan yang dipakai di file web utama (rins-frozen-food.html)
+   agar keduanya membaca/menulis ke tabel yang sama.
+   ══════════════════════════════════════════════════════════ */
+const SUPABASE_URL = 'https://idznfxlkxbjixjhxgktc.supabase.co';
+const SUPABASE_KEY = 'sb_secret_nLXVQbBihXaSNhHrzLPbDg_S4ZAlbWD';
+
+let sb = null, dbConnected = false;
+if (SUPABASE_URL.startsWith('https://') && SUPABASE_KEY.length > 20) {
+  try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); dbConnected = true; }
+  catch(e){ console.warn(e); }
+}
+
+/* Data contoh dipakai HANYA jika database belum disambungkan, supaya tampilan tidak kosong */
+const DEMO_DATA = Array.from({length:12}, (_,i)=>({
+  id:i+1, nama:`Contoh Produk ${i+1}`, kategori:['nuget','sosis','ikan','kulit','lainnya'][i%5],
+  harga:15000+i*1000, emoji:'📦', stok: i%4===0?0:50, unggulan:i<3, aktif:true
+}));
+
+let allProducts = [];
+let page = 1;
+const PAGE_SIZE = 25;
+let saveTimers = {};
+
+const fmtNum = n => Number(n).toLocaleString('id-ID');
+const catLabel = k => ({nuget:'Nuget',sosis:'Sosis',ikan:'Olahan Ikan',kulit:'Kulit',lainnya:'Lainnya'}[k]||k);
+
+function setStatus(ok, text) {
+  const pill = document.getElementById('status-pill');
+  pill.className = 'status-pill ' + (ok?'live':'off');
+  document.getElementById('status-text').textContent = text;
+  document.getElementById('setup-notice').classList.toggle('show', !ok);
+}
+
+async function loadData() {
+  if (!dbConnected) {
+    setStatus(false, 'Database belum terhubung (mode contoh)');
+    allProducts = DEMO_DATA;
+    renderStats(); renderTable();
+    return;
+  }
+  try {
+    const { data, error } = await sb.from('products').select('*').order('id');
+    if (error) throw error;
+    allProducts = data || [];
+    setStatus(true, 'Tersambung — perubahan otomatis tersimpan');
+    renderStats(); renderTable();
+  } catch(e) {
+    console.error(e);
+    setStatus(false, 'Gagal memuat data: ' + e.message);
+    toast('Gagal memuat data dari database', true);
+  }
+}
+
+function renderStats() {
+  document.getElementById('st-total').textContent = allProducts.length;
+  document.getElementById('st-aktif').textContent = allProducts.filter(p=>p.aktif!==false).length;
+  document.getElementById('st-habis').textContent = allProducts.filter(p=>(p.stok??0)<=0).length;
+  document.getElementById('st-kategori').textContent = new Set(allProducts.map(p=>p.kategori)).size;
+}
+
+function getFiltered() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const kat = document.getElementById('filter-kat').value;
+  const stokF = document.getElementById('filter-stok').value;
+  return allProducts.filter(p=>{
+    if (q && !p.nama.toLowerCase().includes(q)) return false;
+    if (kat && p.kategori !== kat) return false;
+    if (stokF === 'habis' && (p.stok??0) > 0) return false;
+    if (stokF === 'ada' && (p.stok??0) <= 0) return false;
+    return true;
+  });
+}
+
+function renderTable() {
+  const list = getFiltered();
+  const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+  if (page > totalPages) page = totalPages;
+  const start = (page-1)*PAGE_SIZE;
+  const pageItems = list.slice(start, start+PAGE_SIZE);
+
+  const tbody = document.getElementById('tbody');
+  if (!pageItems.length) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="9">Tidak ada produk yang cocok dengan filter ini.</td></tr>`;
+  } else {
+    tbody.innerHTML = pageItems.map(rowHTML).join('');
+  }
+
+  const pager = document.getElementById('pager');
+  if (list.length > PAGE_SIZE) {
+    pager.style.display = 'flex';
+    document.getElementById('pager-info').textContent =
+      `Menampilkan ${start+1}–${Math.min(start+PAGE_SIZE,list.length)} dari ${list.length} produk`;
+    renderPagerBtns(totalPages);
+  } else {
+    pager.style.display = 'none';
+  }
+}
+
+function renderPagerBtns(totalPages) {
+  const el = document.getElementById('pager-btns');
+  let html = `<button class="pg-btn" ${page===1?'disabled':''} onclick="gotoPage(${page-1})">‹</button>`;
+  const win = 2;
+  for (let i=1;i<=totalPages;i++){
+    if (i===1 || i===totalPages || Math.abs(i-page)<=win) {
+      html += `<button class="pg-btn ${i===page?'cur':''}" onclick="gotoPage(${i})">${i}</button>`;
+    } else if (Math.abs(i-page)===win+1) {
+      html += `<span style="color:var(--muted);padding:0 4px">…</span>`;
+    }
+  }
+  html += `<button class="pg-btn" ${page===totalPages?'disabled':''} onclick="gotoPage(${page+1})">›</button>`;
+  el.innerHTML = html;
+}
+function gotoPage(n){ page=n; renderTable(); }
+
+function rowHTML(p) {
+  const habis = (p.stok ?? 0) <= 0;
+  return `<tr data-id="${p.id}">
+    <td class="cell-id">#${p.id}</td>
+    <td class="cell-emoji">${p.emoji || '📦'}</td>
+    <td><input class="editable nama" value="${escAttr(p.nama)}" onchange="updateField(${p.id},'nama',this.value)"></td>
+    <td>
+      <select class="editable" onchange="updateField(${p.id},'kategori',this.value)">
+        ${['nuget','sosis','ikan','kulit','lainnya'].map(k=>`<option value="${k}" ${k===p.kategori?'selected':''}>${catLabel(k)}</option>`).join('')}
+      </select>
+    </td>
+    <td><input class="editable harga" type="number" value="${p.harga}" onchange="updateField(${p.id},'harga',Number(this.value))"></td>
+    <td>
+      <div class="qtoggle">
+        <button onclick="bumpStok(${p.id},-1)">−</button>
+        <input class="editable stok-input ${habis?'zero':''}" type="number" value="${p.stok??0}" onchange="updateField(${p.id},'stok',Number(this.value))">
+        <button onclick="bumpStok(${p.id},1)">+</button>
+      </div>
+    </td>
+    <td>${habis ? '<span class="pill empty">● Habis</span>' : '<span class="pill ready">● Tersedia</span>'}</td>
+    <td><button class="toggle-aktif ${p.unggulan?'on':''}" onclick="toggleField(${p.id},'unggulan',this)"></button></td>
+    <td><button class="toggle-aktif ${p.aktif!==false?'on':''}" onclick="toggleField(${p.id},'aktif',this)"></button></td>
+  </tr>`;
+}
+
+function escAttr(s){ return String(s).replace(/"/g,'&quot;'); }
+
+function bumpStok(id, delta) {
+  const p = allProducts.find(x=>x.id===id);
+  if (!p) return;
+  const next = Math.max(0, (p.stok??0)+delta);
+  updateField(id, 'stok', next);
+}
+
+function toggleField(id, field, btnEl) {
+  const p = allProducts.find(x=>x.id===id);
+  if (!p) return;
+  const next = !(field==='aktif' ? p.aktif!==false : p[field]);
+  btnEl.classList.toggle('on', next);
+  updateField(id, field, next);
+}
+
+function updateField(id, field, value) {
+  const p = allProducts.find(x=>x.id===id);
+  if (!p) return;
+  p[field] = value;
+  renderStats();
+
+  // Refresh just the affected row's stock-status pill/badge without full re-render flicker
+  const row = document.querySelector(`tr[data-id="${id}"]`);
+  if (row && (field==='stok')) {
+    const habis = (value??0) <= 0;
+    row.children[5].querySelector('.stok-input').classList.toggle('zero', habis);
+    row.children[6].innerHTML = habis ? '<span class="pill empty">● Habis</span>' : '<span class="pill ready">● Tersedia</span>';
+  }
+
+  clearTimeout(saveTimers[id]);
+  saveTimers[id] = setTimeout(()=>saveToDb(id, row), 450);
+}
+
+async function saveToDb(id, rowEl) {
+  if (!dbConnected) { toast('Mode contoh: perubahan tidak disimpan ke database', true); return; }
+  const p = allProducts.find(x=>x.id===id);
+  if (!p) return;
+  try {
+    const { error } = await sb.from('products').update({
+      nama:p.nama, kategori:p.kategori, harga:p.harga, stok:p.stok,
+      unggulan:p.unggulan, aktif:p.aktif, updated_at:new Date().toISOString()
+    }).eq('id', id);
+    if (error) throw error;
+    if (rowEl) { rowEl.classList.remove('row-saved'); requestAnimationFrame(()=>rowEl.classList.add('row-saved')); }
+    toast(`Produk #${id} tersimpan`);
+  } catch(e) {
+    console.error(e);
+    toast('Gagal menyimpan: ' + e.message, true);
+  }
+}
+
+function toast(msg, isErr) {
+  const c = document.getElementById('tcon');
+  const t = document.createElement('div');
+  t.className = 'toast' + (isErr?' err':'');
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(()=>t.remove(), 2600);
+}
+
+/* ══ EVENTS ══ */
+document.getElementById('search').addEventListener('input', ()=>{ page=1; renderTable(); });
+document.getElementById('filter-kat').addEventListener('change', ()=>{ page=1; renderTable(); });
+document.getElementById('filter-stok').addEventListener('change', ()=>{ page=1; renderTable(); });
+document.getElementById('btn-refresh').addEventListener('click', loadData);
+
+/* ══ INIT ══ */
+loadData();
+</script>
+</body>
+</html>
