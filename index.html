@@ -48,21 +48,29 @@ nav{display:flex;justify-content:space-between;align-items:center;height:66px;}
 .page.on{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 
-/* ── HERO SLIDER ── */
-.hero{position:relative;height:500px;overflow:hidden;background:#1a1a18;}
-@media(max-width:768px){.hero{height:280px;}}
-.slide{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.85s ease;}
-.slide.on{opacity:1;z-index:2;}
+/* ── HERO SLIDER (SWIPEABLE) ── */
+.hero-wrap{position:relative;background:#1a1a18;}
+.hero{position:relative;height:500px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;display:flex;-webkit-overflow-scrolling:touch;cursor:grab;}
+.hero.dragging{cursor:grabbing;scroll-snap-type:none;}
+.hero::-webkit-scrollbar{display:none;}
+@media(max-width:768px){.hero{height:300px;}}
+@media(max-width:480px){.hero{height:240px;}}
+.slide{position:relative;flex:0 0 100%;width:100%;height:100%;scroll-snap-align:start;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;user-select:none;}
 .slide::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.18) 100%);z-index:1;}
 .hero-cnt{position:relative;z-index:3;color:white;padding:0 24px;max-width:660px;text-align:center;}
 .htag{display:inline-block;background:var(--orange);color:white;font-size:0.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:14px;}
-.hero-cnt h1{font-size:clamp(1.5rem,3.8vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:10px;text-shadow:0 2px 8px rgba(0,0,0,0.4);}
-.hero-cnt p{font-size:clamp(0.85rem,2vw,1.05rem);color:rgba(255,255,255,0.85);margin-bottom:22px;}
+.hero-cnt h1{font-size:clamp(1.3rem,3.8vw,2.7rem);font-weight:800;line-height:1.15;margin-bottom:10px;text-shadow:0 2px 8px rgba(0,0,0,0.4);}
+.hero-cnt p{font-size:clamp(0.8rem,2vw,1.05rem);color:rgba(255,255,255,0.85);margin-bottom:22px;}
 .hbtn{display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:white;padding:11px 26px;border-radius:50px;font-weight:700;font-size:0.875rem;cursor:pointer;transition:0.2s;border:none;font-family:inherit;}
 .hbtn:hover{background:var(--orange-dark);transform:translateY(-2px);}
-.dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:10;}
-.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.38);cursor:pointer;transition:0.3s;}
-.dot.on{background:white;width:22px;border-radius:4px;}
+.dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center;max-width:90%;}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:0.3s;flex-shrink:0;}
+.dot.on{background:white;width:20px;border-radius:4px;}
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.22);border:none;color:white;font-size:18px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:0.2s;backdrop-filter:blur(4px);}
+.hero-arrow:hover{background:rgba(255,255,255,0.38);}
+.hero-arrow.prev{left:14px;}
+.hero-arrow.next{right:14px;}
+@media(max-width:600px){.hero-arrow{width:32px;height:32px;font-size:15px;}.hero-arrow.prev{left:8px;}.hero-arrow.next{right:8px;}}
 
 /* ── STATS ── */
 .stats{background:var(--orange);padding:36px 0;}
@@ -167,6 +175,8 @@ footer{background:var(--dark);color:rgba(255,255,255,0.55);padding:56px 0 22px;f
 .fc li{margin-bottom:9px;}
 .fc a{transition:0.2s;cursor:pointer;}
 .fc a:hover{color:white;}
+.fc li a[href*="maps"]{color:rgba(255,255,255,0.6);line-height:1.6;}
+.fc li a[href*="maps"]:hover{color:var(--orange);}
 .fbot{border-top:1px solid rgba(255,255,255,0.07);padding-top:20px;text-align:center;font-size:0.78rem;}
 @media(max-width:680px){.fg{grid-template-columns:1fr;gap:28px;}}
 
@@ -284,33 +294,12 @@ footer{background:var(--dark);color:rgba(255,255,255,0.55);padding:56px 0 22px;f
 <div id="page-beranda" class="page on">
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="slide on" style="background-image:url('https://placehold.co/1200x520/ee6708/fff?text=Promo+Spesial');">
-      <div class="hero-cnt">
-        <div class="htag">Penawaran Terbatas</div>
-        <h1>Diskon Spesial Minggu Ini!</h1>
-        <p>Harga terbaik untuk sosis jumbo premium favorit keluarga Anda.</p>
-        <button class="hbtn" onclick="go('menu')">Lihat Semua Promo →</button>
-      </div>
-    </div>
-    <div class="slide" style="background-image:url('https://placehold.co/1200x520/c9550a/fff?text=Varian+Baru');">
-      <div class="hero-cnt">
-        <div class="htag">Baru Hadir</div>
-        <h1>Varian Rasa Terbaru</h1>
-        <p>Lebih nikmat, lebih gurih — hadir untuk memanjakan selera.</p>
-        <button class="hbtn" onclick="go('menu')">Cek Menu Baru →</button>
-      </div>
-    </div>
-    <div class="slide" style="background-image:url('https://placehold.co/1200x520/1a1a18/fff?text=Gratis+Ongkir');">
-      <div class="hero-cnt">
-        <div class="htag">Gratis Ongkir</div>
-        <h1>Antar Sampai Pintu Rumah!</h1>
-        <p>Gratis ongkir area Sukun, Malang — min. pembelian Rp 50.000.</p>
-        <button class="hbtn" onclick="go('menu')">Pesan Sekarang →</button>
-      </div>
-    </div>
+  <div class="hero-wrap">
+    <div class="hero" id="hero"></div>
+    <button class="hero-arrow prev" onclick="heroPrev()" aria-label="Sebelumnya">‹</button>
+    <button class="hero-arrow next" onclick="heroNext()" aria-label="Selanjutnya">›</button>
     <div class="dots" id="hero-dots"></div>
-  </section>
+  </div>
 
   <!-- STATS -->
   <div class="stats">
@@ -374,8 +363,7 @@ footer{background:var(--dark);color:rgba(255,255,255,0.55);padding:56px 0 22px;f
           <li><a href="https://wa.me/6282159598779" target="_blank">Kontak</a></li>
         </ul></div>
         <div class="fc"><h4>Kontak</h4><ul>
-          <li>JL. Pelabuhan Tj. Emas No. 5</li>
-          <li>Sukun, Malang, Jawa Timur</li>
+          <li><a href="https://maps.app.goo.gl/GANTI-DENGAN-LINK-LOKASI-TOKO" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:6px">📍 <span>JL. Pelabuhan Tj. Emas No. 5<br>Sukun, Malang, Jawa Timur</span></a></li>
           <li style="margin-top:6px"><a href="tel:082159598779" style="color:var(--orange)">082159598779</a></li>
         </ul></div>
       </div>
@@ -440,8 +428,7 @@ footer{background:var(--dark);color:rgba(255,255,255,0.55);padding:56px 0 22px;f
           <li><a href="https://wa.me/6282159598779" target="_blank">Kontak</a></li>
         </ul></div>
         <div class="fc"><h4>Kontak</h4><ul>
-          <li>JL. Pelabuhan Tj. Emas No. 5</li>
-          <li>Sukun, Malang, Jawa Timur</li>
+          <li><a href="https://maps.app.goo.gl/GANTI-DENGAN-LINK-LOKASI-TOKO" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:6px">📍 <span>JL. Pelabuhan Tj. Emas No. 5<br>Sukun, Malang, Jawa Timur</span></a></li>
           <li style="margin-top:6px"><a href="tel:082159598779" style="color:var(--orange)">082159598779</a></li>
         </ul></div>
       </div>
@@ -476,6 +463,12 @@ footer{background:var(--dark);color:rgba(255,255,255,0.55);padding:56px 0 22px;f
         <div class="popt" data-p="transfer" onclick="selPay(this)"><div class="pico">🏦</div><div class="pname">Transfer</div></div>
         <div class="popt" data-p="qris" onclick="selPay(this)"><div class="pico">📱</div><div class="pname">QRIS</div></div>
       </div>
+      <div id="transfer-info" style="display:none;margin-top:12px;background:var(--orange-light);border-radius:10px;padding:13px 14px;">
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--orange-dark);margin-bottom:6px;">Transfer ke Rekening</div>
+        <div style="font-size:0.9rem;font-weight:800;color:var(--dark);">BCA — 1234567890</div>
+        <div style="font-size:0.82rem;color:var(--mid);margin-top:1px;">a.n. Nama Pemilik Rekening</div>
+        <div style="font-size:0.74rem;color:var(--muted);margin-top:6px;">*Ganti dengan nomor rekening &amp; nama asli toko.</div>
+      </div>
     </div>
     <div class="cftr">
       <div class="trow">
@@ -502,7 +495,7 @@ const PRODS = [
   {id:1,  nama:'Nuget Ayam Jumbo',      kat:'nuget',  harga:15000, desc:'Renyah di luar, lembut di dalam. Cocok untuk cemilan keluarga.', emoji:'🍗', top:true},
   {id:2,  nama:'Nuget Ikan Spesial',    kat:'nuget',  harga:18000, desc:'Kaya omega-3, bergizi tinggi, disukai anak-anak.', emoji:'🐟', top:true},
   {id:3,  nama:'Nuget Sapi Crispy',     kat:'nuget',  harga:20000, desc:'Daging sapi pilihan, balutan tepung crispy sempurna.', emoji:'🥩', top:false},
-  {id:4,  nama:'Nuget Salam 500g',      kat:'nuget',  harga:20000, desc:'Nuget ayam dengan daging lembut.', top:false},
+  {id:15, nama:'Nuget Salam 500g',      kat:'nuget',  harga:20000, desc:'Nuget ayam dengan daging lembut.', emoji:'🍗', top:false},
   {id:4,  nama:'Sosis Sapi Premium',    kat:'sosis',  harga:22000, desc:'Daging sapi pilihan, tanpa pengawet berbahaya.', emoji:'🌭', top:true},
   {id:5,  nama:'Sosis Ayam Jumbo',      kat:'sosis',  harga:20000, desc:'Ukuran ekstra besar, gurih dan juicy.', emoji:'🌭', top:false},
   {id:6,  nama:'Sosis Keju Mix',        kat:'sosis',  harga:24000, desc:'Perpaduan sosis ayam dengan keju leleh di dalamnya.', emoji:'🧀', top:false},
@@ -554,26 +547,104 @@ function initHome() {
   pg.innerHTML = PRODS.filter(p=>p.top).slice(0,6).map(cardHTML).join('');
 }
 
-/* ══ HERO SLIDER ══ */
-(function(){
-  const slides = document.querySelectorAll('.slide');
+/* ══ HERO SLIDER DATA (UBAH GAMBAR DI SINI) ══
+   Ganti "img" dengan path/URL file JPG Anda, contoh: img:'gambar/promo1.jpg'
+   Jika img dikosongkan (''), otomatis pakai warna polos sebagai latar. */
+const SLIDES = [
+  { img:'', bg:'#ee6708', tag:'Penawaran Terbatas', title:'Diskon Spesial Minggu Ini!', desc:'Harga terbaik untuk sosis jumbo premium favorit keluarga Anda.' },
+  { img:'', bg:'#c9550a', tag:'Baru Hadir',          title:'Varian Rasa Terbaru',        desc:'Lebih nikmat, lebih gurih — hadir untuk memanjakan selera.' },
+  { img:'', bg:'#1a1a18', tag:'Produk Favorit',      title:'Nuget Ayam Jumbo Best Seller', desc:'Renyah di luar, lembut di dalam — favorit semua kalangan.' },
+  { img:'', bg:'#0f6e4f', tag:'Stok Terbatas',       title:'Bakso Ikan Asli Segar',      desc:'Dibuat dari ikan segar pilihan, kenyal alami tanpa pengawet.' },
+  { img:'', bg:'#7a1f1f', tag:'Paket Hemat',         title:'Beli Banyak Lebih Untung',   desc:'Dapatkan harga spesial untuk pembelian dalam jumlah besar.' },
+  { img:'', bg:'#2a4d8f', tag:'Kualitas Terjamin',   title:'Higienis & Bersertifikat',   desc:'Proses produksi terjaga kebersihannya demi kepuasan Anda.' },
+  { img:'', bg:'#8a5a12', tag:'Rekomendasi',         title:'Sosis Keju Mix Spesial',     desc:'Perpaduan sosis ayam dengan keju leleh yang menggugah selera.' },
+  { img:'', bg:'#444',    tag:'Pesan Sekarang',      title:'Stok Selalu Fresh Tiap Hari',desc:'Langsung pesan via WhatsApp untuk info stok dan harga terbaru.' },
+];
+
+/* ══ HERO SLIDER (SWIPEABLE / DRAGGABLE) ══ */
+const heroEl = document.getElementById('hero');
+let heroCur = 0, heroTimer = null;
+
+function buildHero() {
+  heroEl.innerHTML = SLIDES.map(s => {
+    const bgStyle = s.img ? `background-image:url('${s.img}')` : `background-color:${s.bg}`;
+    return `<div class="slide" style="${bgStyle}">
+      <div class="hero-cnt">
+        <div class="htag">${s.tag}</div>
+        <h1>${s.title}</h1>
+        <p>${s.desc}</p>
+        <button class="hbtn" onclick="go('menu')">Lihat Menu →</button>
+      </div>
+    </div>`;
+  }).join('');
+
   const dEl = document.getElementById('hero-dots');
-  let cur = 0;
-  slides.forEach((_,i)=>{
-    const d = document.createElement('div');
-    d.className='dot'+(i===0?' on':'');
-    d.onclick=()=>goSlide(i);
-    dEl.appendChild(d);
-  });
-  function goSlide(n){
-    slides[cur].classList.remove('on');
-    document.querySelectorAll('.dot')[cur].classList.remove('on');
-    cur=n;
-    slides[cur].classList.add('on');
-    document.querySelectorAll('.dot')[cur].classList.add('on');
-  }
-  setInterval(()=>goSlide((cur+1)%slides.length),4000);
-})();
+  dEl.innerHTML = SLIDES.map((_,i)=>`<div class="dot${i===0?' on':''}" onclick="heroGoto(${i})"></div>`).join('');
+}
+
+function heroGoto(n) {
+  heroCur = (n + SLIDES.length) % SLIDES.length;
+  heroEl.scrollTo({ left: heroEl.clientWidth * heroCur, behavior:'smooth' });
+  updateDots();
+  restartAutoplay();
+}
+function heroNext(){ heroGoto(heroCur+1); }
+function heroPrev(){ heroGoto(heroCur-1); }
+function updateDots(){
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on', i===heroCur));
+}
+
+/* Sync dots when user swipes/drags manually */
+let scrollTimeout;
+heroEl.addEventListener('scroll', () => {
+  clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(() => {
+    heroCur = Math.round(heroEl.scrollLeft / heroEl.clientWidth);
+    updateDots();
+  }, 100);
+});
+
+/* Mouse drag support (desktop) */
+let isDown=false, startX=0, startScroll=0;
+heroEl.addEventListener('mousedown', e => {
+  isDown = true;
+  heroEl.classList.add('dragging');
+  startX = e.pageX;
+  startScroll = heroEl.scrollLeft;
+});
+window.addEventListener('mouseup', () => {
+  if(!isDown) return;
+  isDown = false;
+  heroEl.classList.remove('dragging');
+  heroCur = Math.round(heroEl.scrollLeft / heroEl.clientWidth);
+  heroEl.scrollTo({ left: heroEl.clientWidth * heroCur, behavior:'smooth' });
+  updateDots();
+  restartAutoplay();
+});
+window.addEventListener('mousemove', e => {
+  if(!isDown) return;
+  e.preventDefault();
+  heroEl.scrollLeft = startScroll - (e.pageX - startX);
+});
+
+/* Touch swipe support (mobile) — native scroll-snap handles most of it,
+   we just pause/resume autoplay around the gesture */
+heroEl.addEventListener('touchstart', () => { clearInterval(heroTimer); }, {passive:true});
+heroEl.addEventListener('touchend', () => {
+  setTimeout(() => {
+    heroCur = Math.round(heroEl.scrollLeft / heroEl.clientWidth);
+    updateDots();
+    restartAutoplay();
+  }, 150);
+}, {passive:true});
+
+function restartAutoplay(){
+  clearInterval(heroTimer);
+  heroTimer = setInterval(()=>heroGoto(heroCur+1), 4500);
+}
+
+buildHero();
+restartAutoplay();
 
 /* ══ MENU TABS ══ */
 function buildTabs() {
@@ -706,6 +777,7 @@ function selPay(el){
   document.querySelectorAll('.popt').forEach(o=>o.classList.remove('on'));
   el.classList.add('on');
   pay=el.dataset.p;
+  document.getElementById('transfer-info').style.display = (pay==='transfer') ? 'block' : 'none';
 }
 
 /* ══ CHECKOUT ══ */
@@ -715,7 +787,11 @@ function checkout(){
   let msg=`Halo Rins Frozen Food! 😊%0A%0A*Pesanan Saya:*%0A`;
   let tot=0;
   cart.forEach(item=>{const s=item.harga*item.qty;tot+=s;msg+=`• ${item.nama} (${item.qty}x) = ${fmt(s)}%0A`;});
-  msg+=`%0A*Total: ${fmt(tot)}*%0A*Pembayaran: ${labels[pay]}*%0A%0AMohon konfirmasi stok & ongkir. Terima kasih! 🙏`;
+  msg+=`%0A*Total: ${fmt(tot)}*%0A*Pembayaran: ${labels[pay]}*`;
+  if (pay==='transfer') {
+    msg+=`%0ARekening: BCA 1234567890 a.n. Nama Pemilik Rekening`;
+  }
+  msg+=`%0A%0AMohon konfirmasi stok. Terima kasih! 🙏`;
   window.open(`https://wa.me/6282159598779?text=${msg}`,'_blank');
 }
 
