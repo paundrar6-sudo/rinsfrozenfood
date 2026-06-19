@@ -106,8 +106,9 @@ nav{display:flex;justify-content:space-between;align-items:center;height:66px;}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:20px;}
 .pcard{background:white;border-radius:var(--rl);overflow:hidden;border:1px solid var(--border);transition:0.3s;display:flex;flex-direction:column;}
 .pcard:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,0.09);}
-.cimg{height:180px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;position:relative;}
-.cbadge{position:absolute;top:10px;left:10px;background:white;color:var(--orange);font-size:9px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid rgba(238,103,8,0.2);}
+.cimg{height:180px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.cimg img{width:100%;height:100%;object-fit:cover;}
+.cbadge{position:absolute;top:10px;left:10px;background:white;color:var(--orange);font-size:9px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid rgba(238,103,8,0.2);z-index:2;}
 .cbody{padding:15px;flex:1;display:flex;flex-direction:column;}
 .ctitle{font-size:0.92rem;font-weight:700;margin-bottom:3px;}
 .cdesc{color:var(--muted);font-size:0.8rem;margin-bottom:12px;line-height:1.48;flex:1;}
@@ -117,7 +118,7 @@ nav{display:flex;justify-content:space-between;align-items:center;height:66px;}
 .btn-add:hover{background:var(--orange-dark);}
 .btn-add:disabled{background:#ccc;cursor:not-allowed;}
 .pcard.habis{opacity:0.72;}
-.pcard.habis .cimg::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.45);}
+.pcard.habis .cimg::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.45);z-index:1;}
 .cbadge-habis{position:absolute;top:10px;right:10px;background:#e53935;color:white;font-size:9px;font-weight:800;letter-spacing:0.4px;text-transform:uppercase;padding:4px 10px;border-radius:20px;z-index:2;}
 .loading-state{grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted);font-size:0.9rem;}
 .loading-spin{display:inline-block;width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;}
@@ -155,15 +156,22 @@ nav{display:flex;justify-content:space-between;align-items:center;height:66px;}
 .srch-clr{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:var(--muted);color:white;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer;display:none;align-items:center;justify-content:center;font-family:inherit;}
 .srch-clr.vis{display:flex;}
 
-/* Tab strip */
-.tabs-bar{background:var(--orange);overflow-x:auto;scrollbar-width:none;padding-bottom:0;}
+/* Main category tabs (Frozen / Bumbu) */
+.maintabs-bar{background:var(--orange);}
+.maintabs{display:flex;gap:3px;padding:14px 20px 0;max-width:1140px;margin:0 auto;}
+.maintab{padding:11px 22px;border-radius:10px 10px 0 0;border:none;background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.78);font-size:0.88rem;font-weight:700;cursor:pointer;font-family:inherit;transition:0.2s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.maintab:hover{background:rgba(255,255,255,0.24);color:white;}
+.maintab.on{background:var(--cream);color:var(--orange);}
+
+/* Sub-category tab strip */
+.tabs-bar{background:var(--orange-light);overflow-x:auto;scrollbar-width:none;padding-bottom:0;}
 .tabs-bar::-webkit-scrollbar{display:none;}
-.tabs{display:flex;gap:3px;padding:12px 20px 0;max-width:1140px;margin:0 auto;}
-.tab{padding:10px 18px;border-radius:10px 10px 0 0;border:none;background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.78);font-size:0.83rem;font-weight:600;cursor:pointer;font-family:inherit;transition:0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
-.tab:hover{background:rgba(255,255,255,0.24);color:white;}
-.tab.on{background:var(--cream);color:var(--orange);}
-.tab .tc{background:rgba(255,255,255,0.22);color:white;font-size:9px;padding:1px 5px;border-radius:8px;font-weight:700;}
-.tab.on .tc{background:var(--orange-light);color:var(--orange);}
+.tabs{display:flex;gap:3px;padding:10px 20px;max-width:1140px;margin:0 auto;}
+.tab{padding:8px 16px;border-radius:50px;border:1.5px solid rgba(238,103,8,0.2);background:white;color:var(--mid);font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;transition:0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+.tab:hover{border-color:var(--orange);color:var(--orange);}
+.tab.on{background:var(--orange);border-color:var(--orange);color:white;}
+.tab .tc{background:rgba(0,0,0,0.08);font-size:9px;padding:1px 5px;border-radius:8px;font-weight:700;}
+.tab.on .tc{background:rgba(255,255,255,0.25);color:white;}
 
 /* Catalog bar */
 .cbar{display:flex;justify-content:space-between;align-items:center;padding:18px 0 0;flex-wrap:wrap;gap:10px;}
@@ -202,7 +210,8 @@ footer{background:var(--dark);color:rgba(255,255,255,0.55);padding:56px 0 22px;f
 .toast.del{border-left-color:#e53935;}
 @keyframes tin{from{transform:translateX(36px);opacity:0;}to{transform:translateX(0);opacity:1;}}
 @keyframes tout{from{transform:translateX(0);opacity:1;}to{transform:translateX(36px);opacity:0;}}
-.tico{width:34px;height:34px;border-radius:50%;background:var(--orange-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px;}
+.tico{width:34px;height:34px;border-radius:50%;background:var(--orange-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px;overflow:hidden;}
+.tico img{width:100%;height:100%;object-fit:cover;}
 .toast.del .tico{background:#ffebee;}
 .tbody strong{display:block;font-size:0.83rem;font-weight:700;color:var(--dark);}
 .tbody span{font-size:0.76rem;color:var(--muted);}
@@ -224,7 +233,8 @@ footer{background:var(--dark);color:rgba(255,255,255,0.55);padding:56px 0 22px;f
 .cemp p{color:var(--muted);font-size:0.875rem;}
 .citem{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--border);}
 .citem:last-child{border-bottom:none;}
-.cthumb{width:52px;height:52px;border-radius:9px;background:#f5f5f5;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.cthumb{width:52px;height:52px;border-radius:9px;background:#f5f5f5;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;overflow:hidden;}
+.cthumb img{width:100%;height:100%;object-fit:cover;}
 .cdet{flex:1;min-width:0;}
 .cdet strong{font-size:0.85rem;font-weight:700;display:block;margin-bottom:1px;}
 .iprice{color:var(--orange);font-weight:700;font-size:0.82rem;}
@@ -254,8 +264,10 @@ footer{background:var(--dark);color:rgba(255,255,255,0.55);padding:56px 0 22px;f
   .nav-links{display:none;}
   .hamburger{display:block;}
   .sgrid{grid-template-columns:repeat(3,1fr);}
-  .tabs{padding:10px 10px 0;}
-  .tab{padding:8px 13px;font-size:0.78rem;}
+  .maintabs{padding:10px 10px 0;}
+  .maintab{padding:9px 16px;font-size:0.82rem;}
+  .tabs{padding:8px 10px;}
+  .tab{padding:7px 13px;font-size:0.76rem;}
   .cbar{flex-direction:column;align-items:flex-start;}
   .mh-top{flex-direction:column;}
 }
@@ -405,10 +417,16 @@ footer{background:var(--dark);color:rgba(255,255,255,0.55);padding:56px 0 22px;f
         <button class="srch-clr" id="srch-clr" onclick="clearSrch()">✕</button>
       </div>
     </div>
-    <!-- TABS -->
-    <div class="tabs-bar">
-      <div class="tabs" id="tabs"></div>
-    </div>
+  </div>
+
+  <!-- MAIN CATEGORY TABS (Frozen / Bumbu) -->
+  <div class="maintabs-bar">
+    <div class="maintabs" id="maintabs"></div>
+  </div>
+
+  <!-- SUB CATEGORY TABS -->
+  <div class="tabs-bar">
+    <div class="tabs" id="tabs"></div>
   </div>
 
   <!-- CATALOG -->
@@ -492,32 +510,54 @@ footer{background:var(--dark);color:rgba(255,255,255,0.55);padding:56px 0 22px;f
 </div>
 
 <script>
-/* ══ DATA ══ */
-const CATS = [
-  {id:'semua',  label:'Semua',              icon:'🍱'},
-  {id:'nuget',  label:'Nuget',              icon:'🍗'},
-  {id:'sosis',  label:'Sosis',              icon:'🌭'},
-  {id:'ikan',   label:'Olahan Ikan',        icon:'🐟'},
-  {id:'kulit',  label:'Kulit Lumpia/Kebab', icon:'🫓'},
-  {id:'lainnya',label:'Lainnya',            icon:'🥟'},
+/* ══════════════════════════════════════════════════════════
+   STRUKTUR KATEGORI (2 TINGKAT)
+   ══════════════════════════════════════════════════════════ */
+const MAIN_CATS = [
+  {id:'frozen', label:'Frozen', icon:'🧊'},
+  {id:'bumbu',  label:'Bumbu & Lainnya', icon:'🧂'},
 ];
 
+const SUB_CATS = {
+  frozen: [
+    {id:'nuget',          label:'Nuget',            icon:'🍗'},
+    {id:'sosis',          label:'Sosis',            icon:'🌭'},
+    {id:'bakpao',         label:'Bakpao',           icon:'🥟'},
+    {id:'maryam',         label:'Maryam',           icon:'🫓'},
+    {id:'burger',         label:'Burger',           icon:'🍔'},
+    {id:'ilm',            label:'ILM',              icon:'📦'},
+    {id:'gorengan',       label:'Gorengan',         icon:'🍤'},
+    {id:'bakso',          label:'Bakso',            icon:'🍢'},
+    {id:'kulit_lumpia',   label:'Kulit Lumpia',     icon:'🫓'},
+    {id:'tortilla',       label:'Tortilla',         icon:'🌯'},
+    {id:'kentang',        label:'Kentang',          icon:'🍟'},
+    {id:'mix_vegetables', label:'Mix Vegetables',   icon:'🥦'},
+    {id:'dimsum',         label:'Dimsum',           icon:'🥟'},
+    {id:'odeng',          label:'Odeng',            icon:'🍢'},
+    {id:'lainnya_frozen', label:'Lainnya',          icon:'❄️'},
+  ],
+  bumbu: [
+    {id:'saos',          label:'Saos',     icon:'🍅'},
+    {id:'bubuk',         label:'Bubuk',    icon:'🧂'},
+    {id:'lainnya_bumbu', label:'Lainnya',  icon:'🧴'},
+  ]
+};
+
+function subLabel(mainId, subId) {
+  const list = SUB_CATS[mainId] || [];
+  return list.find(s=>s.id===subId)?.label || subId;
+}
+function mainLabel(mainId) {
+  return MAIN_CATS.find(m=>m.id===mainId)?.label || mainId;
+}
+
 const PRODS_FALLBACK = [
-  {id:1,  nama:'Nuget Ayam Jumbo',      kat:'nuget',  harga:15000, desc:'Renyah di luar, lembut di dalam. Cocok untuk cemilan keluarga.', emoji:'🍗', top:true, stok:50},
-  {id:2,  nama:'Nuget Ikan Spesial',    kat:'nuget',  harga:18000, desc:'Kaya omega-3, bergizi tinggi, disukai anak-anak.', emoji:'🐟', top:true, stok:50},
-  {id:3,  nama:'Nuget Sapi Crispy',     kat:'nuget',  harga:20000, desc:'Daging sapi pilihan, balutan tepung crispy sempurna.', emoji:'🥩', top:false, stok:50},
-  {id:15, nama:'Nuget Salam 500g',      kat:'nuget',  harga:20000, desc:'Nuget ayam dengan daging lembut.', emoji:'🍗', top:false, stok:50},
-  {id:4,  nama:'Sosis Sapi Premium',    kat:'sosis',  harga:22000, desc:'Daging sapi pilihan, tanpa pengawet berbahaya.', emoji:'🌭', top:true, stok:50},
-  {id:5,  nama:'Sosis Ayam Jumbo',      kat:'sosis',  harga:20000, desc:'Ukuran ekstra besar, gurih dan juicy.', emoji:'🌭', top:false, stok:50},
-  {id:6,  nama:'Sosis Keju Mix',        kat:'sosis',  harga:24000, desc:'Perpaduan sosis ayam dengan keju leleh di dalamnya.', emoji:'🧀', top:false, stok:50},
-  {id:7,  nama:'Bakso Ikan Asli',       kat:'ikan',   harga:25000, desc:'Terbuat dari ikan segar pilihan, kenyal alami.', emoji:'🐠', top:true, stok:50},
-  {id:8,  nama:'Siomay Ikan',           kat:'ikan',   harga:20000, desc:'Gurih lezat, cocok untuk sarapan atau cemilan sore.', emoji:'🥟', top:false, stok:50},
-  {id:9,  nama:'Otak-otak Ikan',        kat:'ikan',   harga:16000, desc:'Bumbu khas, aroma ikan segar terjaga sempurna.', emoji:'🐡', top:false, stok:50},
-  {id:10, nama:'Kulit Lumpia (50 lbr)', kat:'kulit',  harga:12000, desc:'Tipis dan renyah, cocok untuk berbagai isian favorit.', emoji:'🫓', top:true, stok:50},
-  {id:11, nama:'Kulit Kebab (10 lbr)',  kat:'kulit',  harga:15000, desc:'Lembut, elastis, mudah digulung tanpa robek.', emoji:'🫓', top:false, stok:50},
-  {id:12, nama:'Dimsum Ayam',           kat:'lainnya',harga:28000, desc:'Kenyal nikmat, cocok dikukus atau digoreng.', emoji:'🥟', top:true, stok:50},
-  {id:13, nama:'Tahu Crispy',           kat:'lainnya',harga:12000, desc:'Tahu premium, krispy sempurna saat digoreng.', emoji:'🧆', top:false, stok:50},
-  {id:14, nama:'Lumpia Sayur',          kat:'lainnya',harga:18000, desc:'Isian sayuran segar, sehat dan lezat untuk sarapan.', emoji:'🥢', top:false, stok:50},
+  {id:1,  nama:'Nuget Ayam Jumbo',      katUtama:'frozen', kat:'nuget',  harga:15000, desc:'Renyah di luar, lembut di dalam. Cocok untuk cemilan keluarga.', gambar:'', top:true, stok:50},
+  {id:2,  nama:'Nuget Ikan Spesial',    katUtama:'frozen', kat:'nuget',  harga:18000, desc:'Kaya omega-3, bergizi tinggi, disukai anak-anak.', gambar:'', top:true, stok:50},
+  {id:4,  nama:'Sosis Sapi Premium',    katUtama:'frozen', kat:'sosis',  harga:22000, desc:'Daging sapi pilihan, tanpa pengawet berbahaya.', gambar:'', top:true, stok:50},
+  {id:7,  nama:'Bakso Ikan Asli',       katUtama:'frozen', kat:'bakso',  harga:25000, desc:'Terbuat dari ikan segar pilihan, kenyal alami.', gambar:'', top:true, stok:50},
+  {id:10, nama:'Kulit Lumpia (50 lbr)', katUtama:'frozen', kat:'kulit_lumpia', harga:12000, desc:'Tipis dan renyah, cocok untuk berbagai isian favorit.', gambar:'', top:true, stok:50},
+  {id:12, nama:'Dimsum Ayam',           katUtama:'frozen', kat:'dimsum', harga:28000, desc:'Kenyal nikmat, cocok dikukus atau digoreng.', gambar:'', top:true, stok:50},
 ];
 
 /* ══════════════════════════════════════════════════════════
@@ -525,7 +565,7 @@ const PRODS_FALLBACK = [
    Ganti SUPABASE_URL dan SUPABASE_KEY dengan punya Anda sendiri.
    Cara dapat: Supabase Dashboard → Project Settings → API
    ══════════════════════════════════════════════════════════ */
-const SUPABASE_URL = 'https://idznfxlkxbjixjhxgktc.supabase.co';   // contoh: https://xxxxx.supabase.co
+const SUPABASE_URL = 'https://idznfxlkxbjixjhxgktc.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_0Ib-FhzoIJovYnl5UiRtCw_S6Qps0_E';
 
 let PRODS = [];
@@ -541,12 +581,12 @@ if (SUPABASE_URL.startsWith('https://') && SUPABASE_KEY.length > 20) {
   }
 }
 
-/* Ubah baris dari Supabase (kolom: nama, kategori, dst) ke format yang dipakai tampilan (kat, desc, top) */
+/* Ubah baris dari Supabase ke format yang dipakai tampilan */
 function mapRow(r) {
   return {
-    id: r.id, nama: r.nama, kat: r.kategori, harga: Number(r.harga),
-    desc: r.deskripsi, emoji: r.emoji || '📦', top: !!r.unggulan,
-    stok: r.stok ?? 0, aktif: r.aktif !== false
+    id: r.id, nama: r.nama, katUtama: r.kategori_utama || 'frozen', kat: r.kategori,
+    harga: Number(r.harga), desc: r.deskripsi, gambar: r.gambar_url || '',
+    top: !!r.unggulan, stok: r.stok ?? 0, aktif: r.aktif !== false
   };
 }
 
@@ -563,13 +603,11 @@ async function loadProducts() {
   afterProductsLoaded();
 }
 
-/* Dipanggil otomatis tiap kali data produk berhasil diambil/diperbarui */
 function afterProductsLoaded() {
   initHome();
-  if (curPage === 'menu') { buildTabs(); applyCat(); }
+  if (curPage === 'menu') { buildMainTabs(); buildSubTabs(); applyCat(); }
 }
 
-/* Live update: kalau admin mengubah stok di panel admin, web ini ikut update otomatis tanpa refresh */
 function subscribeRealtime() {
   if (!dbConnected) return;
   sb.channel('products-changes')
@@ -580,14 +618,13 @@ function subscribeRealtime() {
 }
 
 /* ══ STATE ══ */
-let cart=[], pay='cash', activeCat='semua', q='', curPage='beranda';
+let cart=[], pay='cash', activeMain='frozen', activeSub='semua', q='', curPage='beranda';
 
 /* ══ FORMAT ══ */
 const fmt = n => 'Rp ' + n.toLocaleString('id-ID');
-const catLabel = id => CATS.find(c=>c.id===id)?.label || id;
 
 /* ══ NAVIGASI ══ */
-function go(page, cat) {
+function go(page, mainCat, subCat) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
   document.getElementById('page-'+page).classList.add('on');
   curPage = page;
@@ -595,20 +632,22 @@ function go(page, cat) {
   document.getElementById('nm').classList.toggle('on', page==='menu');
   window.scrollTo({top:0, behavior:'smooth'});
   if (page === 'menu') {
-    if (cat) activeCat = cat;
-    buildTabs();
+    if (mainCat) activeMain = mainCat;
+    activeSub = subCat || 'semua';
+    buildMainTabs();
+    buildSubTabs();
     applyCat();
   }
 }
 
-/* ══ BERANDA: KATEGORI GRID ══ */
+/* ══ BERANDA: KATEGORI GRID (tampilkan kategori utama) ══ */
 function initHome() {
   const g = document.getElementById('cat-home');
-  g.innerHTML = CATS.filter(c=>c.id!=='semua').map(c=>{
-    const n = PRODS.filter(p=>p.kat===c.id).length;
-    return `<div class="cat-card" onclick="go('menu','${c.id}')">
-      <div class="cat-icon">${c.icon}</div>
-      <div class="cat-name">${c.label}</div>
+  g.innerHTML = MAIN_CATS.map(m=>{
+    const n = PRODS.filter(p=>p.katUtama===m.id).length;
+    return `<div class="cat-card" onclick="go('menu','${m.id}')">
+      <div class="cat-icon">${m.icon}</div>
+      <div class="cat-name">${m.label}</div>
       <div class="cat-cnt">${n} produk →</div>
     </div>`;
   }).join('');
@@ -617,9 +656,7 @@ function initHome() {
   pg.innerHTML = PRODS.filter(p=>p.top).slice(0,6).map(cardHTML).join('');
 }
 
-/* ══ HERO SLIDER DATA (UBAH GAMBAR DI SINI) ══
-   Ganti "img" dengan path/URL file JPG Anda, contoh: img:'gambar/promo1.jpg'
-   Jika img dikosongkan (''), otomatis pakai warna polos sebagai latar. */
+/* ══ HERO SLIDER DATA (UBAH GAMBAR DI SINI) ══ */
 const SLIDES = [
   { img:'', bg:'#ee6708', tag:'Penawaran Terbatas', title:'Diskon Spesial Minggu Ini!', desc:'Harga terbaik untuk sosis jumbo premium favorit keluarga Anda.' },
   { img:'', bg:'#c9550a', tag:'Baru Hadir',          title:'Varian Rasa Terbaru',        desc:'Lebih nikmat, lebih gurih — hadir untuk memanjakan selera.' },
@@ -631,7 +668,6 @@ const SLIDES = [
   { img:'', bg:'#444',    tag:'Pesan Sekarang',      title:'Stok Selalu Fresh Tiap Hari',desc:'Langsung pesan via WhatsApp untuk info stok dan harga terbaru.' },
 ];
 
-/* ══ HERO SLIDER (SWIPEABLE / DRAGGABLE) ══ */
 const heroEl = document.getElementById('hero');
 let heroCur = 0, heroTimer = null;
 
@@ -664,7 +700,6 @@ function updateDots(){
   document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on', i===heroCur));
 }
 
-/* Sync dots when user swipes/drags manually */
 let scrollTimeout;
 heroEl.addEventListener('scroll', () => {
   clearTimeout(scrollTimeout);
@@ -674,7 +709,6 @@ heroEl.addEventListener('scroll', () => {
   }, 100);
 });
 
-/* Mouse drag support (desktop) */
 let isDown=false, startX=0, startScroll=0;
 heroEl.addEventListener('mousedown', e => {
   isDown = true;
@@ -697,8 +731,6 @@ window.addEventListener('mousemove', e => {
   heroEl.scrollLeft = startScroll - (e.pageX - startX);
 });
 
-/* Touch swipe support (mobile) — native scroll-snap handles most of it,
-   we just pause/resume autoplay around the gesture */
 heroEl.addEventListener('touchstart', () => { clearInterval(heroTimer); }, {passive:true});
 heroEl.addEventListener('touchend', () => {
   setTimeout(() => {
@@ -716,30 +748,50 @@ function restartAutoplay(){
 buildHero();
 restartAutoplay();
 
-/* ══ MENU TABS ══ */
-function buildTabs() {
-  document.getElementById('tabs').innerHTML = CATS.map(c=>{
-    const n = c.id==='semua'?PRODS.length:PRODS.filter(p=>p.kat===c.id).length;
-    return `<button class="tab${c.id===activeCat?' on':''}" data-c="${c.id}" onclick="setTab('${c.id}')">
-      ${c.icon} ${c.label} <span class="tc">${n}</span>
+/* ══ MAIN TABS (Frozen / Bumbu) ══ */
+function buildMainTabs() {
+  document.getElementById('maintabs').innerHTML = MAIN_CATS.map(m=>{
+    return `<button class="maintab${m.id===activeMain?' on':''}" onclick="setMainTab('${m.id}')">
+      ${m.icon} ${m.label}
     </button>`;
   }).join('');
-  // Scroll active tab into view on mobile
+}
+function setMainTab(mainId) {
+  activeMain = mainId;
+  activeSub = 'semua';
+  document.querySelectorAll('.maintab').forEach(b=>b.classList.remove('on'));
+  buildMainTabs();
+  buildSubTabs();
+  applyCat();
+}
+
+/* ══ SUB TABS (tergantung kategori utama yang aktif) ══ */
+function buildSubTabs() {
+  const subs = SUB_CATS[activeMain] || [];
+  const inMain = PRODS.filter(p=>p.katUtama===activeMain);
+  const allCount = inMain.length;
+  let html = `<button class="tab${activeSub==='semua'?' on':''}" onclick="setSubTab('semua')">Semua <span class="tc">${allCount}</span></button>`;
+  html += subs.map(s=>{
+    const n = inMain.filter(p=>p.kat===s.id).length;
+    return `<button class="tab${s.id===activeSub?' on':''}" onclick="setSubTab('${s.id}')">${s.icon} ${s.label} <span class="tc">${n}</span></button>`;
+  }).join('');
+  document.getElementById('tabs').innerHTML = html;
   setTimeout(()=>{
     const at = document.querySelector('.tab.on');
     if(at) at.scrollIntoView({block:'nearest',inline:'center'});
   },80);
 }
-
-function setTab(cat) {
-  activeCat = cat;
-  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.c===cat));
+function setSubTab(subId) {
+  activeSub = subId;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  buildSubTabs();
   applyCat();
 }
 
 /* ══ CATALOG RENDER ══ */
 function applyCat() {
-  let list = activeCat==='semua' ? [...PRODS] : PRODS.filter(p=>p.kat===activeCat);
+  let list = PRODS.filter(p=>p.katUtama===activeMain);
+  if (activeSub !== 'semua') list = list.filter(p=>p.kat===activeSub);
   if (q) {
     const lq = q.toLowerCase();
     list = list.filter(p=>p.nama.toLowerCase().includes(lq)||p.desc.toLowerCase().includes(lq));
@@ -772,13 +824,16 @@ function clearSrch(){
   applyCat();
 }
 
-/* ══ CARD HTML ══ */
+/* ══ CARD HTML (pakai gambar URL, fallback ke ikon kotak jika kosong) ══ */
 function cardHTML(p) {
   const habis = (p.stok ?? 1) <= 0;
+  const imgInner = p.gambar
+    ? `<img src="${p.gambar}" alt="${escAttr(p.nama)}" onerror="this.parentElement.innerHTML='<span style=\\'font-size:40px\\'>📦</span>'">`
+    : `<span style="font-size:40px">📦</span>`;
   return `<div class="pcard${habis?' habis':''}">
     <div class="cimg">
-      <span style="font-size:50px">${p.emoji}</span>
-      <span class="cbadge">${catLabel(p.kat)}</span>
+      ${imgInner}
+      <span class="cbadge">${subLabel(p.katUtama, p.kat)}</span>
       ${habis ? '<span class="cbadge-habis">Stok Habis</span>' : ''}
     </div>
     <div class="cbody">
@@ -791,6 +846,7 @@ function cardHTML(p) {
     </div>
   </div>`;
 }
+function escAttr(s){ return String(s).replace(/"/g,'&quot;'); }
 
 /* ══ CART ══ */
 function addCart(id){
@@ -830,9 +886,13 @@ function renderCart(){
     ps.style.display='none';btn.disabled=true;return;
   }
   ps.style.display='block';btn.disabled=false;
-  bd.innerHTML=cart.map(item=>`
+  bd.innerHTML=cart.map(item=>{
+    const thumb = item.gambar
+      ? `<img src="${item.gambar}" alt="" onerror="this.parentElement.innerHTML='📦'">`
+      : '📦';
+    return `
     <div class="citem">
-      <div class="cthumb">${item.emoji}</div>
+      <div class="cthumb">${thumb}</div>
       <div class="cdet">
         <strong>${item.nama}</strong>
         <div class="iprice">${fmt(item.harga)}</div>
@@ -842,7 +902,8 @@ function renderCart(){
         <span class="qnum">${item.qty}</span>
         <button class="qbtn" onclick="chQty(${item.id},1)">+</button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 /* ══ PAYMENT ══ */
@@ -879,7 +940,8 @@ function toast(act,p,qty){
   const t=document.createElement('div');
   t.className='toast'+(act==='del'?' del':'');
   const msgs={add:qty===1?'Ditambahkan ke keranjang':`Sekarang ${qty} buah`,sub:`Sisa ${qty} buah di keranjang`,del:'Dihapus dari keranjang'};
-  t.innerHTML=`<div class="tico">${p.emoji}</div><div class="tbody"><strong>${p.nama}</strong><span>${msgs[act]}</span></div>`;
+  const icoInner = p.gambar ? `<img src="${p.gambar}" alt="" onerror="this.parentElement.innerHTML='📦'">` : '📦';
+  t.innerHTML=`<div class="tico">${icoInner}</div><div class="tbody"><strong>${p.nama}</strong><span>${msgs[act]}</span></div>`;
   c.appendChild(t);
   setTimeout(()=>{t.style.animation='tout 0.32s ease forwards';setTimeout(()=>t.remove(),320);},2400);
 }

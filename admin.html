@@ -24,7 +24,7 @@ button{font-family:inherit;}
 
 /* ── TOPBAR ── */
 .topbar{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;}
-.tb-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between;}
+.tb-inner{max-width:1360px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between;}
 .brand{display:flex;align-items:center;gap:10px;}
 .brand img{height:32px;border-radius:6px;}
 .brand-name{font-weight:800;font-size:0.95rem;}
@@ -35,7 +35,7 @@ button{font-family:inherit;}
 .status-pill.off .status-dot{background:var(--red);}
 
 /* ── LAYOUT ── */
-.wrap{max-width:1280px;margin:0 auto;padding:28px 24px 80px;}
+.wrap{max-width:1360px;margin:0 auto;padding:28px 24px 80px;}
 .head-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:24px;}
 .h-title{font-size:1.5rem;font-weight:800;}
 .h-sub{color:var(--muted);font-size:0.85rem;margin-top:3px;}
@@ -48,7 +48,7 @@ button{font-family:inherit;}
 .setup-notice code{background:#000;padding:2px 7px;border-radius:5px;font-family:var(--mono);font-size:0.78rem;color:var(--amber);}
 
 /* ── STAT CARDS ── */
-.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px;}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:28px;}
 .stat-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;}
 .stat-num{font-size:1.8rem;font-weight:800;font-family:var(--mono);}
 .stat-num.warn{color:var(--red);}
@@ -56,7 +56,7 @@ button{font-family:inherit;}
 
 /* ── TOOLBAR ── */
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px;}
-.tb-search{position:relative;flex:1;min-width:220px;max-width:380px;}
+.tb-search{position:relative;flex:1;min-width:220px;max-width:340px;}
 .tb-search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px 10px 38px;color:var(--text);font-size:0.85rem;outline:none;transition:0.2s;}
 .tb-search input:focus{border-color:var(--orange);}
 .tb-search span{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;}
@@ -73,32 +73,32 @@ button{font-family:inherit;}
 /* ── TABLE ── */
 .table-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
 table{width:100%;border-collapse:collapse;}
-thead th{text-align:left;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);padding:13px 16px;border-bottom:1px solid var(--line);background:var(--panel2);white-space:nowrap;}
-tbody td{padding:11px 16px;border-bottom:1px solid var(--line);font-size:0.85rem;vertical-align:middle;}
+thead th{text-align:left;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);padding:13px 14px;border-bottom:1px solid var(--line);background:var(--panel2);white-space:nowrap;}
+tbody td{padding:10px 14px;border-bottom:1px solid var(--line);font-size:0.85rem;vertical-align:middle;}
 tbody tr:last-child td{border-bottom:none;}
 tbody tr:hover{background:rgba(255,255,255,0.02);}
 .cell-id{font-family:var(--mono);color:var(--muted);font-size:0.78rem;}
-.cell-emoji{font-size:1.3rem;}
+.thumb-cell{width:46px;height:46px;border-radius:8px;background:var(--panel2);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:18px;flex-shrink:0;}
+.thumb-cell img{width:100%;height:100%;object-fit:cover;}
 .editable{background:transparent;border:1px solid transparent;border-radius:7px;padding:6px 9px;color:var(--text);font-size:0.85rem;font-family:inherit;width:100%;min-width:90px;transition:0.15s;outline:none;}
 .editable:hover{border-color:var(--line);}
 .editable:focus{border-color:var(--orange);background:var(--panel2);}
-.editable.nama{min-width:160px;font-weight:600;}
-.editable.harga{font-family:var(--mono);max-width:110px;}
+.editable.nama{min-width:150px;font-weight:600;}
+.editable.harga{font-family:var(--mono);max-width:100px;}
+.editable.gambar{min-width:160px;font-family:var(--mono);font-size:0.74rem;}
 select.editable{cursor:pointer;}
-.stok-input{width:64px;text-align:center;font-family:var(--mono);font-weight:700;}
+.stok-input{width:60px;text-align:center;font-family:var(--mono);font-weight:700;}
 .stok-input.zero{color:var(--red);}
 .qtoggle{display:inline-flex;border-radius:8px;overflow:hidden;border:1px solid var(--line);}
-.qtoggle button{background:var(--panel2);color:var(--muted);border:none;width:30px;height:30px;font-size:15px;cursor:pointer;transition:0.15s;}
+.qtoggle button{background:var(--panel2);color:var(--muted);border:none;width:28px;height:28px;font-size:14px;cursor:pointer;transition:0.15s;}
 .qtoggle button:hover{background:var(--orange);color:white;}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:50px;font-size:0.72rem;font-weight:700;}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:50px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
 .pill.ready{background:rgba(61,214,140,0.12);color:var(--green);}
 .pill.empty{background:rgba(242,84,91,0.12);color:var(--red);}
-.toggle-aktif{position:relative;width:38px;height:22px;border-radius:11px;background:var(--line);cursor:pointer;border:none;transition:0.2s;flex-shrink:0;}
-.toggle-aktif::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--muted);transition:0.2s;}
+.toggle-aktif{position:relative;width:36px;height:21px;border-radius:11px;background:var(--line);cursor:pointer;border:none;transition:0.2s;flex-shrink:0;}
+.toggle-aktif::after{content:'';position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:var(--muted);transition:0.2s;}
 .toggle-aktif.on{background:rgba(61,214,140,0.25);}
-.toggle-aktif.on::after{transform:translateX(16px);background:var(--green);}
-.btn-icon{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:6px;border-radius:7px;transition:0.15s;}
-.btn-icon:hover{background:rgba(242,84,91,0.12);color:var(--red);}
+.toggle-aktif.on::after{transform:translateX(15px);background:var(--green);}
 .row-saved{animation:flashSave 0.6s ease;}
 @keyframes flashSave{0%{background:rgba(61,214,140,0.18);}100%{background:transparent;}}
 
@@ -123,9 +123,9 @@ select.editable{cursor:pointer;}
 @keyframes tin{from{transform:translateY(10px);opacity:0;}to{transform:none;opacity:1;}}
 
 /* ── RESPONSIVE ── */
-@media(max-width:860px){
+@media(max-width:1100px){
   .table-wrap{overflow-x:auto;}
-  table{min-width:760px;}
+  table{min-width:1020px;}
 }
 @media(max-width:560px){
   .tb-inner{padding:0 16px;}
@@ -158,9 +158,8 @@ select.editable{cursor:pointer;}
     <h4>⚠️ Database belum terhubung</h4>
     <p>
       Buka file ini, cari baris <code>const SUPABASE_URL</code> dan <code>const SUPABASE_KEY</code> di bagian bawah kode,
-      lalu isi dengan URL dan Anon Key dari project Supabase Anda (Project Settings → API).
-      Jalankan juga file <code>setup_database.sql</code> sekali di Supabase SQL Editor untuk membuat tabel produk.
-      Selama belum diisi, panel ini hanya menampilkan tampilan contoh dan perubahan tidak akan tersimpan.
+      lalu isi dengan URL dan Anon/Publishable Key dari project Supabase Anda (Project Settings → API Keys → Publishable key).
+      Jalankan juga file migrasi SQL sekali di Supabase SQL Editor jika belum. Selama belum diisi, panel ini hanya menampilkan tampilan contoh.
     </p>
   </div>
 
@@ -175,7 +174,8 @@ select.editable{cursor:pointer;}
     <div class="stat-card"><div class="stat-num" id="st-total">–</div><div class="stat-lbl">Total Produk</div></div>
     <div class="stat-card"><div class="stat-num" id="st-aktif">–</div><div class="stat-lbl">Produk Aktif</div></div>
     <div class="stat-card"><div class="stat-num warn" id="st-habis">–</div><div class="stat-lbl">Stok Habis</div></div>
-    <div class="stat-card"><div class="stat-num" id="st-kategori">–</div><div class="stat-lbl">Kategori</div></div>
+    <div class="stat-card"><div class="stat-num" id="st-frozen">–</div><div class="stat-lbl">Kategori Frozen</div></div>
+    <div class="stat-card"><div class="stat-num" id="st-bumbu">–</div><div class="stat-lbl">Kategori Bumbu</div></div>
   </div>
 
   <div class="toolbar">
@@ -183,13 +183,13 @@ select.editable{cursor:pointer;}
       <span>🔍</span>
       <input type="text" id="search" placeholder="Cari nama produk...">
     </div>
-    <select class="tb-select" id="filter-kat">
-      <option value="">Semua Kategori</option>
-      <option value="nuget">Nuget</option>
-      <option value="sosis">Sosis</option>
-      <option value="ikan">Olahan Ikan</option>
-      <option value="kulit">Kulit Lumpia/Kebab</option>
-      <option value="lainnya">Lainnya</option>
+    <select class="tb-select" id="filter-main">
+      <option value="">Semua Kategori Utama</option>
+      <option value="frozen">Frozen</option>
+      <option value="bumbu">Bumbu &amp; Lainnya</option>
+    </select>
+    <select class="tb-select" id="filter-sub">
+      <option value="">Semua Sub-Kategori</option>
     </select>
     <select class="tb-select" id="filter-stok">
       <option value="">Semua Stok</option>
@@ -205,18 +205,20 @@ select.editable{cursor:pointer;}
       <thead>
         <tr>
           <th>ID</th>
-          <th></th>
+          <th>Foto</th>
           <th>Nama Produk</th>
-          <th>Kategori</th>
+          <th>URL Gambar</th>
+          <th>Kat. Utama</th>
+          <th>Sub-Kategori</th>
           <th>Harga (Rp)</th>
           <th>Stok</th>
-          <th>Status Stok</th>
+          <th>Status</th>
           <th>Unggulan</th>
           <th>Aktif</th>
         </tr>
       </thead>
       <tbody id="tbody">
-        <tr class="empty-row"><td colspan="9"><div class="spin"></div><br><br>Memuat data produk...</td></tr>
+        <tr class="empty-row"><td colspan="11"><div class="spin"></div><br><br>Memuat data produk...</td></tr>
       </tbody>
     </table>
     <div class="pager" id="pager" style="display:none">
@@ -231,9 +233,7 @@ select.editable{cursor:pointer;}
 
 <script>
 /* ══════════════════════════════════════════════════════════
-   KONEKSI SUPABASE — ISI DENGAN MILIK ANDA SENDIRI
-   Harus SAMA dengan yang dipakai di file web utama (rins-frozen-food.html)
-   agar keduanya membaca/menulis ke tabel yang sama.
+   KONEKSI SUPABASE — HARUS SAMA dengan file web utama (index.html)
    ══════════════════════════════════════════════════════════ */
 const SUPABASE_URL = 'https://idznfxlkxbjixjhxgktc.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_0Ib-FhzoIJovYnl5UiRtCw_S6Qps0_E';
@@ -244,10 +244,48 @@ if (SUPABASE_URL.startsWith('https://') && SUPABASE_KEY.length > 20) {
   catch(e){ console.warn(e); }
 }
 
-/* Data contoh dipakai HANYA jika database belum disambungkan, supaya tampilan tidak kosong */
+/* ══ STRUKTUR KATEGORI (2 TINGKAT) — harus sama persis dengan index.html ══ */
+const MAIN_CATS = [
+  {id:'frozen', label:'Frozen'},
+  {id:'bumbu',  label:'Bumbu & Lainnya'},
+];
+const SUB_CATS = {
+  frozen: [
+    {id:'nuget',          label:'Nuget'},
+    {id:'sosis',          label:'Sosis'},
+    {id:'bakpao',         label:'Bakpao'},
+    {id:'maryam',         label:'Maryam'},
+    {id:'burger',         label:'Burger'},
+    {id:'ilm',            label:'ILM'},
+    {id:'gorengan',       label:'Gorengan'},
+    {id:'bakso',          label:'Bakso'},
+    {id:'kulit_lumpia',   label:'Kulit Lumpia'},
+    {id:'tortilla',       label:'Tortilla'},
+    {id:'kentang',        label:'Kentang'},
+    {id:'mix_vegetables', label:'Mix Vegetables'},
+    {id:'dimsum',         label:'Dimsum'},
+    {id:'odeng',          label:'Odeng'},
+    {id:'lainnya_frozen', label:'Lainnya'},
+  ],
+  bumbu: [
+    {id:'saos',          label:'Saos'},
+    {id:'bubuk',         label:'Bubuk'},
+    {id:'lainnya_bumbu', label:'Lainnya'},
+  ]
+};
+function allSubCats(){ return [...SUB_CATS.frozen, ...SUB_CATS.bumbu]; }
+function subLabel(mainId, subId){
+  const list = SUB_CATS[mainId] || [];
+  return list.find(s=>s.id===subId)?.label || subId || '–';
+}
+function mainLabel(id){ return MAIN_CATS.find(m=>m.id===id)?.label || id; }
+
+/* Data contoh dipakai HANYA jika database belum disambungkan */
 const DEMO_DATA = Array.from({length:12}, (_,i)=>({
-  id:i+1, nama:`Contoh Produk ${i+1}`, kategori:['nuget','sosis','ikan','kulit','lainnya'][i%5],
-  harga:15000+i*1000, emoji:'📦', stok: i%4===0?0:50, unggulan:i<3, aktif:true
+  id:i+1, nama:`Contoh Produk ${i+1}`,
+  kategori_utama: i%3===0 ? 'bumbu' : 'frozen',
+  kategori: i%3===0 ? 'saos' : ['nuget','sosis','bakso','dimsum'][i%4],
+  harga:15000+i*1000, gambar_url:'', stok: i%4===0?0:50, unggulan:i<3, aktif:true
 }));
 
 let allProducts = [];
@@ -256,7 +294,6 @@ const PAGE_SIZE = 25;
 let saveTimers = {};
 
 const fmtNum = n => Number(n).toLocaleString('id-ID');
-const catLabel = k => ({nuget:'Nuget',sosis:'Sosis',ikan:'Olahan Ikan',kulit:'Kulit',lainnya:'Lainnya'}[k]||k);
 
 function setStatus(ok, text) {
   const pill = document.getElementById('status-pill');
@@ -289,16 +326,27 @@ function renderStats() {
   document.getElementById('st-total').textContent = allProducts.length;
   document.getElementById('st-aktif').textContent = allProducts.filter(p=>p.aktif!==false).length;
   document.getElementById('st-habis').textContent = allProducts.filter(p=>(p.stok??0)<=0).length;
-  document.getElementById('st-kategori').textContent = new Set(allProducts.map(p=>p.kategori)).size;
+  document.getElementById('st-frozen').textContent = allProducts.filter(p=>p.kategori_utama==='frozen').length;
+  document.getElementById('st-bumbu').textContent = allProducts.filter(p=>p.kategori_utama==='bumbu').length;
+}
+
+function refreshSubFilterOptions() {
+  const mainVal = document.getElementById('filter-main').value;
+  const subSel = document.getElementById('filter-sub');
+  const subs = mainVal ? (SUB_CATS[mainVal]||[]) : allSubCats();
+  subSel.innerHTML = '<option value="">Semua Sub-Kategori</option>' +
+    subs.map(s=>`<option value="${s.id}">${s.label}</option>`).join('');
 }
 
 function getFiltered() {
   const q = document.getElementById('search').value.trim().toLowerCase();
-  const kat = document.getElementById('filter-kat').value;
+  const mainF = document.getElementById('filter-main').value;
+  const subF = document.getElementById('filter-sub').value;
   const stokF = document.getElementById('filter-stok').value;
   return allProducts.filter(p=>{
     if (q && !p.nama.toLowerCase().includes(q)) return false;
-    if (kat && p.kategori !== kat) return false;
+    if (mainF && p.kategori_utama !== mainF) return false;
+    if (subF && p.kategori !== subF) return false;
     if (stokF === 'habis' && (p.stok??0) > 0) return false;
     if (stokF === 'ada' && (p.stok??0) <= 0) return false;
     return true;
@@ -314,7 +362,7 @@ function renderTable() {
 
   const tbody = document.getElementById('tbody');
   if (!pageItems.length) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="9">Tidak ada produk yang cocok dengan filter ini.</td></tr>`;
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="11">Tidak ada produk yang cocok dengan filter ini.</td></tr>`;
   } else {
     tbody.innerHTML = pageItems.map(rowHTML).join('');
   }
@@ -348,13 +396,24 @@ function gotoPage(n){ page=n; renderTable(); }
 
 function rowHTML(p) {
   const habis = (p.stok ?? 0) <= 0;
+  const mainVal = p.kategori_utama || 'frozen';
+  const subOptions = (SUB_CATS[mainVal]||[]).map(s=>`<option value="${s.id}" ${s.id===p.kategori?'selected':''}>${s.label}</option>`).join('');
+  const thumbInner = p.gambar_url
+    ? `<img src="${p.gambar_url}" onerror="this.parentElement.innerHTML='📦'">`
+    : '📦';
   return `<tr data-id="${p.id}">
     <td class="cell-id">#${p.id}</td>
-    <td class="cell-emoji">${p.emoji || '📦'}</td>
+    <td><div class="thumb-cell">${thumbInner}</div></td>
     <td><input class="editable nama" value="${escAttr(p.nama)}" onchange="updateField(${p.id},'nama',this.value)"></td>
+    <td><input class="editable gambar" placeholder="https://..." value="${escAttr(p.gambar_url||'')}" onchange="updateField(${p.id},'gambar_url',this.value)"></td>
+    <td>
+      <select class="editable" onchange="changeMainCat(${p.id}, this.value)">
+        ${MAIN_CATS.map(m=>`<option value="${m.id}" ${m.id===mainVal?'selected':''}>${m.label}</option>`).join('')}
+      </select>
+    </td>
     <td>
       <select class="editable" onchange="updateField(${p.id},'kategori',this.value)">
-        ${['nuget','sosis','ikan','kulit','lainnya'].map(k=>`<option value="${k}" ${k===p.kategori?'selected':''}>${catLabel(k)}</option>`).join('')}
+        ${subOptions}
       </select>
     </td>
     <td><input class="editable harga" type="number" value="${p.harga}" onchange="updateField(${p.id},'harga',Number(this.value))"></td>
@@ -372,6 +431,20 @@ function rowHTML(p) {
 }
 
 function escAttr(s){ return String(s).replace(/"/g,'&quot;'); }
+
+function changeMainCat(id, newMain) {
+  const p = allProducts.find(x=>x.id===id);
+  if (!p) return;
+  p.kategori_utama = newMain;
+  // Reset ke sub-kategori pertama yang tersedia di kategori utama baru
+  const firstSub = (SUB_CATS[newMain]||[])[0];
+  p.kategori = firstSub ? firstSub.id : '';
+  renderStats();
+  renderTable(); // perlu render ulang baris ini agar dropdown sub-kategori ikut berubah
+  const row = document.querySelector(`tr[data-id="${id}"]`);
+  clearTimeout(saveTimers[id]);
+  saveTimers[id] = setTimeout(()=>saveToDb(id, row), 450);
+}
 
 function bumpStok(id, delta) {
   const p = allProducts.find(x=>x.id===id);
@@ -394,12 +467,16 @@ function updateField(id, field, value) {
   p[field] = value;
   renderStats();
 
-  // Refresh just the affected row's stock-status pill/badge without full re-render flicker
   const row = document.querySelector(`tr[data-id="${id}"]`);
-  if (row && (field==='stok')) {
+  if (row && field==='stok') {
     const habis = (value??0) <= 0;
-    row.children[5].querySelector('.stok-input').classList.toggle('zero', habis);
-    row.children[6].innerHTML = habis ? '<span class="pill empty">● Habis</span>' : '<span class="pill ready">● Tersedia</span>';
+    const cells = row.querySelectorAll('td');
+    cells[6].querySelector('.stok-input').classList.toggle('zero', habis);
+    cells[7].innerHTML = habis ? '<span class="pill empty">● Habis</span>' : '<span class="pill ready">● Tersedia</span>';
+  }
+  if (row && field==='gambar_url') {
+    const thumbCell = row.querySelector('.thumb-cell');
+    thumbCell.innerHTML = value ? `<img src="${value}" onerror="this.parentElement.innerHTML='📦'">` : '📦';
   }
 
   clearTimeout(saveTimers[id]);
@@ -412,7 +489,8 @@ async function saveToDb(id, rowEl) {
   if (!p) return;
   try {
     const { error } = await sb.from('products').update({
-      nama:p.nama, kategori:p.kategori, harga:p.harga, stok:p.stok,
+      nama:p.nama, kategori_utama:p.kategori_utama, kategori:p.kategori,
+      harga:p.harga, gambar_url:p.gambar_url||'', stok:p.stok,
       unggulan:p.unggulan, aktif:p.aktif, updated_at:new Date().toISOString()
     }).eq('id', id);
     if (error) throw error;
@@ -435,11 +513,13 @@ function toast(msg, isErr) {
 
 /* ══ EVENTS ══ */
 document.getElementById('search').addEventListener('input', ()=>{ page=1; renderTable(); });
-document.getElementById('filter-kat').addEventListener('change', ()=>{ page=1; renderTable(); });
+document.getElementById('filter-main').addEventListener('change', ()=>{ refreshSubFilterOptions(); page=1; renderTable(); });
+document.getElementById('filter-sub').addEventListener('change', ()=>{ page=1; renderTable(); });
 document.getElementById('filter-stok').addEventListener('change', ()=>{ page=1; renderTable(); });
 document.getElementById('btn-refresh').addEventListener('click', loadData);
 
 /* ══ INIT ══ */
+refreshSubFilterOptions();
 loadData();
 </script>
 </body>
